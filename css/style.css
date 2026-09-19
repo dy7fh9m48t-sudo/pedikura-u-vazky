@@ -1,0 +1,487 @@
+/* ==========================================================================
+   Pedikúra u Vážky – styl (mobile-first)
+   ========================================================================== */
+
+:root {
+  --ink: #14323d;
+  --ink-soft: #4a6169;
+  --teal: #0d6f78;
+  --teal-dark: #094f56;
+  --aqua: #e4f2f1;
+  --sand: #faf6ef;
+  --white: #ffffff;
+  --line: #dbe4e3;
+  --gold: #b7782b;
+
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 6px 24px rgba(20, 50, 61, .08);
+
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-head: "Fraunces", Georgia, "Times New Roman", serif;
+
+  --header-h: 64px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  color-scheme: light;
+  scroll-padding-top: calc(var(--header-h) + 12px);
+  -webkit-text-size-adjust: 100%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1.0625rem;      /* 17 px – dobře čitelné na mobilu */
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--white);
+  /* místo pro spodní lištu na mobilu */
+  padding-bottom: 76px;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--teal); text-underline-offset: 3px; }
+a:hover { color: var(--teal-dark); }
+
+h1, h2, h3 {
+  font-family: var(--font-head);
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 .5em;
+  color: var(--ink);
+}
+h1 { font-size: clamp(2rem, 7.5vw, 3.4rem); letter-spacing: -.01em; }
+h2 { font-size: clamp(1.6rem, 5.5vw, 2.4rem); letter-spacing: -.01em; }
+h3 { font-size: 1.25rem; }
+p { margin: 0 0 1em; }
+
+:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.container {
+  width: 100%;
+  max-width: 68rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 8px;
+  background: var(--ink);
+  color: var(--white);
+  padding: .75rem 1rem;
+  border-radius: var(--radius-sm);
+  z-index: 200;
+}
+.skip-link:focus { left: 8px; }
+
+.eyebrow {
+  margin: 0 0 .6rem;
+  font-size: .8125rem;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+
+/* ---------- Tlačítka ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;           /* pohodlný cíl pro prst */
+  padding: .75rem 1.5rem;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: background-color .15s, color .15s, border-color .15s;
+}
+.btn-primary { background: var(--teal); color: var(--white); }
+.btn-primary:hover { background: var(--teal-dark); color: var(--white); }
+.btn-ghost { background: transparent; color: var(--teal-dark); border-color: var(--teal); }
+.btn-ghost:hover { background: var(--aqua); color: var(--teal-dark); }
+
+.btn-row { display: flex; flex-direction: column; gap: .75rem; }
+
+/* ---------- Hlavička ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--header-h);
+  background: rgba(255, 255, 255, .96);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.header-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin-right: auto;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: var(--ink);
+  text-decoration: none;
+}
+.brand:hover { color: var(--ink); }
+
+.header-call {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  min-width: 48px;
+  min-height: 48px;
+  color: var(--teal-dark);
+  font-weight: 600;
+  text-decoration: none;
+}
+.header-call-text { display: none; }
+
+.nav-toggle {
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  color: var(--ink);
+}
+.nav-toggle-bars,
+.nav-toggle-bars::before,
+.nav-toggle-bars::after {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform .2s, opacity .2s;
+}
+.nav-toggle-bars { position: relative; }
+.nav-toggle-bars::before,
+.nav-toggle-bars::after { content: ""; position: absolute; left: 0; }
+.nav-toggle-bars::before { top: -7px; }
+.nav-toggle-bars::after  { top: 7px; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars { background: transparent; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars::before { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle-bars::after  { transform: translateY(-7px) rotate(-45deg); }
+
+/* Menu na mobilu: rozbalovací panel (jen když funguje JS) */
+.nav ul { list-style: none; margin: 0; padding: 0; }
+.nav a {
+  display: block;
+  padding: .9rem 1.25rem;
+  color: var(--ink);
+  font-weight: 500;
+  text-decoration: none;
+}
+.nav a:hover { background: var(--aqua); color: var(--teal-dark); }
+
+.js .nav {
+  position: absolute;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
+  background: var(--white);
+  border-bottom: 1px solid var(--line);
+  box-shadow: var(--shadow);
+  display: none;
+}
+.js .nav.is-open { display: block; }
+.js .nav a { font-size: 1.125rem; border-top: 1px solid var(--line); }
+
+/* bez JS: menu se prostě zalomí pod hlavičku */
+html:not(.js) .site-header { position: static; height: auto; }
+html:not(.js) .header-inner { flex-wrap: wrap; padding-block: .5rem; }
+html:not(.js) .nav { order: 5; width: 100%; }
+html:not(.js) .nav ul { display: flex; flex-wrap: wrap; }
+html:not(.js) .nav-toggle { display: none; }
+
+/* ---------- Úvod (hero) ---------- */
+.hero { background: var(--sand); }
+.hero-inner { display: flex; flex-direction: column-reverse; padding-block: 0 2rem; }
+.hero-text { padding-top: 1.75rem; }
+.lead { font-size: 1.15rem; color: var(--ink-soft); max-width: 36rem; margin-bottom: 1.5rem; }
+
+.hero-photo { margin: 0 -1.25rem; }   /* na mobilu fotka přes celou šířku */
+.hero-photo img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: 62% 55%;            /* aby zůstala v záběru chodidla */
+}
+
+/* ---------- Rychlé informace ---------- */
+.facts { background: var(--teal-dark); color: var(--white); }
+.facts-list {
+  list-style: none;
+  margin: 0 auto;
+  padding-block: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+.facts-list li { display: flex; flex-direction: column; }
+.facts-list strong { font-weight: 600; }
+.facts-list span { color: #cfe6e6; font-size: .95rem; }
+
+/* ---------- Sekce ---------- */
+.section { padding-block: 3.5rem; }
+.section-tint { background: var(--aqua); }
+.section-head { margin-bottom: 1.75rem; max-width: 42rem; }
+.section-sub { color: var(--ink-soft); font-size: 1.1rem; }
+
+/* O mně */
+.about-body p { max-width: 44rem; }
+.checks { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; gap: .6rem; }
+.checks li {
+  position: relative;
+  padding-left: 2rem;
+  font-weight: 500;
+}
+.checks li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .3em;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  background: var(--teal) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.6 2.6L12 5.7' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat;
+}
+
+/* Služby */
+.cards { display: grid; gap: 1rem; }
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  border-top: 4px solid var(--teal);
+}
+.card p:last-child { margin-bottom: 0; }
+.chip {
+  display: inline-block;
+  padding: .4rem .8rem;
+  border-radius: 999px;
+  background: var(--aqua);
+  color: var(--teal-dark);
+  font-size: .9rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.callout {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  background: var(--ink);
+  color: var(--white);
+}
+.callout h3 { color: var(--white); }
+.callout p { margin: 0; color: #dbe9ea; }
+
+/* Ceník */
+.price-grid { display: grid; gap: 1rem; }
+.price-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.25rem .5rem;
+  background: var(--white);
+}
+.price-card h3 { margin-bottom: .25rem; }
+.price-list { list-style: none; margin: 0; padding: 0; }
+.price-list li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 1rem;
+  padding: .85rem 0;
+  border-top: 1px solid var(--line);
+}
+.price-list li:first-child { border-top: 0; }
+.price-name small {
+  display: block;
+  color: var(--ink-soft);
+  font-size: .875rem;
+  margin-top: .1rem;
+}
+.price-val {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 1.25rem;
+  white-space: nowrap;
+  color: var(--teal-dark);
+}
+
+.notes { margin-top: 1.5rem; display: grid; gap: .75rem; }
+.notes p { margin: 0; }
+.note-highlight {
+  padding: 1rem 1.25rem;
+  border-left: 4px solid var(--gold);
+  background: var(--sand);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+/* Objednání */
+.booking { display: grid; gap: 1.5rem; }
+.phone-card {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  background: var(--teal);
+  color: var(--white);
+  text-decoration: none;
+}
+.phone-card:hover { background: var(--teal-dark); color: var(--white); }
+.phone-label { font-size: .875rem; text-transform: uppercase; letter-spacing: .08em; opacity: .9; }
+.phone-number { font-family: var(--font-head); font-size: 2rem; font-weight: 600; line-height: 1.2; }
+.phone-hint { font-size: .9rem; opacity: .9; }
+.booking-note { margin: 1rem 0 0; color: var(--ink-soft); }
+
+.booking-calendar {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: .5rem;
+  box-shadow: var(--shadow);
+}
+.booking-calendar iframe { display: block; width: 100%; min-height: 640px; border-radius: 12px; }
+.calendar-fallback { margin: .5rem .5rem .25rem; font-size: .95rem; color: var(--ink-soft); }
+
+/* Kontakt */
+.contact-grid { display: grid; gap: 1rem; }
+.contact-item {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--ink);
+  text-decoration: none;
+  background: var(--white);
+  transition: border-color .15s, box-shadow .15s;
+}
+.contact-item:hover { border-color: var(--teal); box-shadow: var(--shadow); color: var(--ink); }
+.contact-label { font-size: .8125rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--teal); }
+.contact-value { font-family: var(--font-head); font-size: 1.3rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+.contact-hint { font-size: .9rem; color: var(--ink-soft); }
+.contact-owner { margin: 1.5rem 0 0; color: var(--ink-soft); }
+
+/* ---------- Patička ---------- */
+.site-footer { background: var(--ink); color: #cbd9db; padding-block: 1.5rem; font-size: .9rem; }
+.site-footer p { margin: 0; }
+.site-footer a { color: #ffffff; }
+.footer-inner { display: flex; flex-direction: column; gap: .35rem; }
+
+/* ---------- Spodní lišta (jen mobil) ---------- */
+.mobile-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .75rem;
+  padding: .65rem 1rem calc(.65rem + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, .97);
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -4px 16px rgba(20, 50, 61, .08);
+}
+.mobile-bar .btn { min-height: 48px; }
+
+/* ==========================================================================
+   Tablet a větší
+   ========================================================================== */
+@media (min-width: 40rem) {
+  .btn-row { flex-direction: row; flex-wrap: wrap; }
+  .facts-list { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .cards { grid-template-columns: repeat(2, 1fr); }
+  .price-grid { grid-template-columns: repeat(2, 1fr); }
+  .contact-grid { grid-template-columns: repeat(2, 1fr); }
+  .header-call-text { display: inline; }
+  .header-call { padding-inline: .5rem; }
+}
+
+/* ==========================================================================
+   Desktop
+   ========================================================================== */
+@media (min-width: 62rem) {
+  body { padding-bottom: 0; font-size: 1.125rem; }
+  .mobile-bar { display: none; }
+  .section { padding-block: 5rem; }
+  .container { padding-inline: 2rem; }
+
+  /* menu v řadě, bez hamburgeru */
+  .nav-toggle { display: none; }
+  .js .nav {
+    position: static;
+    display: block;
+    background: none;
+    border: 0;
+    box-shadow: none;
+  }
+  .nav ul { display: flex; gap: .25rem; }
+  .js .nav a { border: 0; font-size: 1rem; padding: .6rem .9rem; border-radius: 999px; }
+  .brand { margin-right: auto; }
+  .header-call { margin-left: .75rem; }
+
+  .hero-inner {
+    flex-direction: row;
+    align-items: center;
+    gap: 3rem;
+    padding-block: 3.5rem;
+  }
+  .hero-text { flex: 1 1 50%; padding-top: 0; }
+  .hero-photo { flex: 1 1 50%; margin: 0; }
+  .hero-photo img {
+    aspect-ratio: 5 / 4;
+    border-radius: 28px;
+    box-shadow: var(--shadow);
+  }
+
+  .about { display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem; align-items: start; }
+  .about .section-head { margin-bottom: 0; position: sticky; top: calc(var(--header-h) + 2rem); }
+
+  .cards { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .price-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .price-card { padding: 1.5rem 1.5rem .75rem; }
+
+  .booking { grid-template-columns: 20rem 1fr; gap: 2rem; align-items: start; }
+  .booking-side { position: sticky; top: calc(var(--header-h) + 2rem); }
+  .contact-grid { grid-template-columns: 1fr 1.2fr 1fr; }
+
+  .footer-inner { flex-direction: row; justify-content: space-between; }
+}
+
+@media print {
+  .site-header, .mobile-bar, .booking-calendar { display: none; }
+  body { padding: 0; }
+}
